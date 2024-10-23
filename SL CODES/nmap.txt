@@ -1,0 +1,57 @@
+1. Show Active Nodes
+To discover active hosts on a network (e.g., 192.168.1.0/24), you can use the following command:
+
+bash
+Copy code
+nmap -sn 192.168.1.0/24
+-sn: This option tells Nmap to perform a "ping scan" to discover hosts without performing a port scan.
+2. Show Open Ports
+To scan for open ports on a specific host (e.g., 192.168.1.10), use the following command:
+
+bash
+Copy code
+nmap -sT 192.168.1.10
+-sT: This option performs a TCP connect scan, which attempts to connect to open ports.
+3. OS Fingerprinting
+To determine the operating system of a target host (e.g., 192.168.1.10), use the following command:
+
+bash
+Copy code
+nmap -O 192.168.1.10
+-O: This option enables OS detection.
+4. Ping Scan
+To perform a ping scan on a network to discover active hosts, use:
+
+bash
+Copy code
+nmap -sn 192.168.1.0/24
+This is the same command as for showing active nodes. It performs a ping scan to determine which hosts are up.
+5. TCP Port Scan
+To perform a TCP scan on a specific host (e.g., 192.168.1.10), you can use:
+
+bash
+Copy code
+nmap -sS 192.168.1.10
+-sS: This option performs a stealth SYN scan, which is less likely to be detected by firewalls and intrusion detection systems.
+Example Usage
+Here's how you might use these commands in sequence:
+
+Discover active nodes:
+bash
+Copy code
+nmap -sn 192.168.1.0/24
+Check for open ports on a specific host:
+bash
+Copy code
+nmap -sT 192.168.1.10
+Perform OS fingerprinting:
+bash
+Copy code
+nmap -O 192.168.1.10
+(Optional) Conduct a TCP port scan:
+bash
+Copy code
+nmap -sS 192.168.1.10
+Notes
+Make sure you have the necessary permissions to scan the network or devices, as unauthorized scanning can be illegal and against network policies.
+You might need to run these commands with sudo for proper access, depending on your system's configuration. For example, use sudo nmap -sn 192.168.1.0/24 if you encounter permission issues.

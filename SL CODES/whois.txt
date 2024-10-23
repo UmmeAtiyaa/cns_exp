@@ -1,0 +1,73 @@
+1. WHOIS
+The whois command is used to obtain domain registration information.
+
+Example Usage:
+
+bash
+Copy code
+whois example.com
+This command retrieves the registration details for example.com, including the registrant's information, registration dates, and name servers.
+2. dig
+The dig (Domain Information Groper) command is used for querying DNS records.
+
+Example Usage:
+
+bash
+Copy code
+dig example.com
+This command retrieves the A record (IP address) for example.com.
+To query specific record types, use:
+
+bash
+Copy code
+dig example.com MX
+This command retrieves the MX (Mail Exchange) records for the domain.
+3. traceroute
+The traceroute command is used to trace the path that packets take to reach a network host.
+
+Example Usage:
+
+bash
+Copy code
+traceroute example.com
+This command shows the route taken by packets from your machine to example.com, displaying each hop along the way.
+4. nslookup
+The nslookup command is used to query DNS to obtain domain name or IP address mapping.
+
+Example Usage:
+
+bash
+Copy code
+nslookup example.com
+This command retrieves the DNS information for example.com, including its IP address.
+To query specific record types, you can use:
+
+bash
+Copy code
+nslookup -query=MX example.com
+This command retrieves the MX records for the domain.
+Summary of Commands
+Here’s a summary of the commands used:
+
+WHOIS: Retrieves domain registration details.
+bash
+Copy code
+whois example.com
+dig: Queries DNS records.
+bash
+Copy code
+dig example.com          # A record
+dig example.com MX       # MX record
+traceroute: Traces the route to a network host.
+bash
+Copy code
+traceroute example.com
+nslookup: Queries DNS for domain name resolution.
+bash
+Copy code
+nslookup example.com
+nslookup -query=MX example.com  # MX record
+Notes:
+Replace example.com with the actual domain name you want to query.
+Some commands may require administrative privileges, especially traceroute on certain systems. You can prefix with sudo if necessary.
+These commands are typically available on Unix/Linux systems. On Windows, you can use tracert instead of traceroute, and nslookup works similarly. The whois and dig commands may need to be installed separately on Windows.

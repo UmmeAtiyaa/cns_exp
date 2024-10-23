@@ -1,0 +1,65 @@
+import random
+from sympy import isprime, mod_inverse
+
+def generate_prime_candidate(length):
+    """Generate an odd integer randomly."""
+    p = random.getrandbits(length)
+    return p | (1 << length - 1) | 1  # Ensure it's odd and has the correct bit length
+
+def generate_prime_number(length):
+    """Generate a prime number of specified bit length."""
+    p = 4  # Initialize with a non-prime
+    while not isprime(p):
+        p = generate_prime_candidate(length)
+    return p
+
+def generate_keys(length):
+    """Generate a public and private key pair."""
+    p = generate_prime_number(length)
+    q = generate_prime_number(length)
+    
+    # Calculate n = p * q
+    n = p * q
+    # Calculate Euler's totient function φ(n) = (p-1)(q-1)
+    phi = (p - 1) * (q - 1)
+    
+    # Choose e such that 1 < e < φ(n) and gcd(e, φ(n)) = 1
+    e = 65537  # Common choice for e
+    if phi % e == 0:
+        raise ValueError("e must be coprime to φ(n)")
+    
+    # Calculate d, the modular multiplicative inverse of e mod φ(n)
+    d = mod_inverse(e, phi)
+    
+    return ((e, n), (d, n))  # Public and private key
+
+def encrypt(public_key, plaintext):
+    """Encrypt the plaintext using the public key."""
+    e, n = public_key
+    # Convert plaintext to integers (each character to ASCII)
+    plaintext_int = [ord(char) for char in plaintext]
+    # Encrypt each integer
+    ciphertext = [(pow(char, e, n)) for char in plaintext_int]
+    return ciphertext
+
+def decrypt(private_key, ciphertext):
+    """Decrypt the ciphertext using the private key."""
+    d, n = private_key
+    # Decrypt each integer
+    decrypted_int = [pow(char, d, n) for char in ciphertext]
+    # Convert integers back to characters
+    decrypted_text = ''.join(chr(char) for char in decrypted_int)
+    return decrypted_text
+
+# Example usage
+length = 8  # Length of the prime number in bits (increase for stronger security)
+public_key, private_key = generate_keys(length)
+print("Public Key:", public_key)
+print("Private Key:", private_key)
+
+plaintext = input("Enter the plaintext: ")
+ciphertext = encrypt(public_key, plaintext)
+print("Encrypted text:", ciphertext)
+
+decrypted_text = decrypt(private_key, ciphertext)
+print("Decrypted text:", decrypted_text)

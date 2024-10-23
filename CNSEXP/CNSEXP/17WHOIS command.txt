@@ -1,0 +1,12 @@
+WHOIS, dig, traceroute, nslookup Commands 
+
+1 install : sudo apt install whois dnsutils traceroute
+
+2 WHOIS : whois <domain-name>
+
+3 dig : dig <domain-name>
+
+4 traceroute : traceroute <hostname-or-ip>
+
+5 nslookup : nslookup <domain-name>
+

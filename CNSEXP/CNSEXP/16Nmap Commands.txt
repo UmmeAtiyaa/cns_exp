@@ -1,0 +1,14 @@
+Nmap Commands:
+
+1 Install Nmap: sudo apt install nmap
+
+2 Show Active Nodes : nmap -sn <network-range>
+
+3 Show Open Ports :nmap <ip-address>
+
+4 OS Fingerprinting :nmap -O <ip-address>
+
+5 Ping Scan : nmap -sn <ip-address-range>
+
+6 TCP Port Scan :nmap -sT <ip-address>
+

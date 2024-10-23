@@ -1,0 +1,28 @@
+def additive_cipher(text, key=8):
+    result = ""
+
+    # Traverse the text
+    for i in range(len(text)):
+        char = text[i]
+
+        # Encrypt uppercase characters
+        if char.isupper():
+            result += chr((ord(char) + key - 65) % 26 + 65)
+        # Encrypt lowercase characters
+        elif char.islower():
+            result += chr((ord(char) + key - 97) % 26 + 97)
+        else:
+            result += char  # Non-alphabet characters remain the same
+
+    return result
+
+# Get user input for the text
+text = input("Enter the text: ")
+
+# Encrypt the text with key 8
+encrypted_text = additive_cipher(text)
+print("Encrypted text:", encrypted_text)
+
+# Decrypt the text by using negative of key (key = -8)
+decrypted_text = additive_cipher(encrypted_text, key=-8)
+print("Decrypted text:", decrypted_text)

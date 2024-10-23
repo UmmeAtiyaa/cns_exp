@@ -1,0 +1,63 @@
+def autokey_encrypt(plaintext, key):
+    ciphertext = ""
+    extended_key = key + plaintext  # Concatenate key with the plaintext to form the full key
+
+    # Traverse the plaintext
+    for i in range(len(plaintext)):
+        char = plaintext[i]
+
+        # Encrypt uppercase characters
+        if char.isupper():
+            key_char = extended_key[i].upper()
+            key_shift = ord(key_char) - 65
+            ciphertext += chr((ord(char) - 65 + key_shift) % 26 + 65)
+        # Encrypt lowercase characters
+        elif char.islower():
+            key_char = extended_key[i].lower()
+            key_shift = ord(key_char) - 97
+            ciphertext += chr((ord(char) - 97 + key_shift) % 26 + 97)
+        else:
+            ciphertext += char  # Non-alphabet characters remain the same
+
+    return ciphertext
+
+
+def autokey_decrypt(ciphertext, key):
+    plaintext = ""
+    full_key = key  # Start with the given key
+
+    # Traverse the ciphertext
+    for i in range(len(ciphertext)):
+        char = ciphertext[i]
+
+        # Decrypt uppercase characters
+        if char.isupper():
+            key_char = full_key[i].upper()
+            key_shift = ord(key_char) - 65
+            plain_char = chr((ord(char) - 65 - key_shift) % 26 + 65)
+            plaintext += plain_char
+            full_key += plain_char  # Add the decrypted letter to the key
+        # Decrypt lowercase characters
+        elif char.islower():
+            key_char = full_key[i].lower()
+            key_shift = ord(key_char) - 97
+            plain_char = chr((ord(char) - 97 - key_shift) % 26 + 97)
+            plaintext += plain_char
+            full_key += plain_char  # Add the decrypted letter to the key
+        else:
+            plaintext += char  # Non-alphabet characters remain the same
+
+    return plaintext
+
+
+# Example usage:
+plaintext = input("Enter the plaintext: ")
+key = input("Enter the key (a word or short phrase): ")
+
+# Encrypt the plaintext
+encrypted_text = autokey_encrypt(plaintext, key)
+print("Encrypted text:", encrypted_text)
+
+# Decrypt the ciphertext
+decrypted_text = autokey_decrypt(encrypted_text, key)
+print("Decrypted text:", decrypted_text)

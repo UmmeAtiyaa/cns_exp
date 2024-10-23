@@ -1,0 +1,33 @@
+def keyed_transposition_encrypt(plaintext, key):
+    # Remove spaces and prepare the plaintext
+    plaintext = plaintext.replace(" ", "")
+    
+    # Calculate number of columns based on the length of the key
+    num_cols = len(key)
+    num_rows = len(plaintext) // num_cols + (1 if len(plaintext) % num_cols else 0)
+    
+    # Create a grid with empty spaces
+    grid = [''] * num_cols
+    
+    # Fill the grid
+    for i in range(num_rows):
+        for j in range(num_cols):
+            index = i * num_cols + j
+            if index < len(plaintext):
+                grid[j] += plaintext[index]
+
+    # Create the ciphertext based on the order defined by the key
+    ciphertext = ''
+    for index in sorted(range(num_cols), key=lambda x: key[x]):
+        ciphertext += grid[index]
+
+    return ciphertext
+
+
+# Example usage
+plaintext = input("Enter the plaintext: ")
+key = [int(x) for x in input("Enter the key (e.g., 45213): ")]
+
+# Encrypt the plaintext using Keyed Transposition Cipher
+encrypted_text = keyed_transposition_encrypt(plaintext, key)
+print("Encrypted text:", encrypted_text)

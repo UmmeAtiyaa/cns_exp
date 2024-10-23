@@ -1,0 +1,26 @@
+def vigenere_encrypt(plaintext, key):
+    ciphertext = ""
+    key_length = len(key)
+    key_as_int = [ord(i) for i in key]  # Convert key characters to integer equivalents
+    plaintext_as_int = [ord(i) for i in plaintext]
+    
+    for i in range(len(plaintext_as_int)):
+        char = plaintext[i]
+        if char.isupper():
+            value = (plaintext_as_int[i] - 65 + key_as_int[i % key_length] - 65) % 26
+            ciphertext += chr(value + 65)
+        elif char.islower():
+            value = (plaintext_as_int[i] - 97 + key_as_int[i % key_length] - 97) % 26
+            ciphertext += chr(value + 97)
+        else:
+            ciphertext += char  # Non-alphabet characters remain the same
+
+    return ciphertext
+
+# Example usage:
+plaintext = input("Enter the plaintext: ")
+key = input("Enter the key: ")
+
+# Encrypt the plaintext
+encrypted_text = vigenere_encrypt(plaintext, key)
+print("Encrypted text:", encrypted_text)

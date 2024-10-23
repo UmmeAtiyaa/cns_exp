@@ -1,0 +1,54 @@
+import numpy as np
+
+def mod26(num):
+    """Returns num mod 26 to wrap around the alphabet"""
+    return num % 26
+
+def create_key_matrix(key):
+    """Creates a key matrix from the provided key"""
+    key_length = int(len(key) ** 0.5)  # Size of the key matrix
+    key_matrix = np.zeros((key_length, key_length), dtype=int)
+
+    # Fill the matrix
+    for i in range(key_length):
+        for j in range(key_length):
+            key_matrix[i][j] = ord(key[i * key_length + j]) - ord('A')  # Convert char to int
+            
+    return key_matrix
+
+def encrypt(plaintext, key):
+    """Encrypts the plaintext using the Hill cipher with the given key"""
+    key_matrix = create_key_matrix(key)
+    key_length = key_matrix.shape[0]
+    
+    # Prepare plaintext (removing spaces and padding if necessary)
+    plaintext = plaintext.replace(" ", "").upper()
+    
+    # Padding the plaintext to fit the key matrix
+    while len(plaintext) % key_length != 0:
+        plaintext += 'X'  # Padding with 'X'
+
+    ciphertext = ""
+    
+    # Process each block of the plaintext
+    for i in range(0, len(plaintext), key_length):
+        block = plaintext[i:i + key_length]
+        block_vector = np.array([ord(char) - ord('A') for char in block])  # Convert chars to int
+        
+        # Encrypt the block
+        encrypted_block = np.dot(key_matrix, block_vector)  # Matrix multiplication
+        encrypted_block = [mod26(num) for num in encrypted_block]  # Mod 26
+        
+        # Convert the encrypted block back to characters
+        for num in encrypted_block:
+            ciphertext += chr(num + ord('A'))
+    
+    return ciphertext
+
+# Example usage
+plaintext = input("Enter the plaintext: ")
+key = input("Enter the key (a square matrix represented as a string, e.g., 'GHOST' for 2x2): ")
+
+# Encrypt the plaintext using Hill Cipher
+encrypted_text = encrypt(plaintext, key)
+print("Encrypted text:", encrypted_text)

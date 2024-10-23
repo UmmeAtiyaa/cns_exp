@@ -1,0 +1,70 @@
+def affine_cipher_encrypt(text, a, b):
+    result = ""
+    
+    # Ensure 'a' is coprime with 26
+    if gcd(a, 26) != 1:
+        return "Multiplicative key 'a' is not valid. It must be coprime with 26."
+    
+    # Traverse the text
+    for i in range(len(text)):
+        char = text[i]
+
+        # Encrypt uppercase characters
+        if char.isupper():
+            result += chr(((a * (ord(char) - 65) + b) % 26) + 65)
+        # Encrypt lowercase characters
+        elif char.islower():
+            result += chr(((a * (ord(char) - 97) + b) % 26) + 97)
+        else:
+            result += char  # Non-alphabet characters remain the same
+
+    return result
+
+def affine_cipher_decrypt(cipher_text, a, b):
+    result = ""
+    
+    # Find modular inverse of 'a'
+    a_inverse = mod_inverse(a, 26)
+    if a_inverse is None:
+        return "No modular inverse exists for 'a'. Decryption not possible."
+    
+    # Traverse the cipher text
+    for i in range(len(cipher_text)):
+        char = cipher_text[i]
+
+        # Decrypt uppercase characters
+        if char.isupper():
+            result += chr(((a_inverse * ((ord(char) - 65) - b)) % 26) + 65)
+        # Decrypt lowercase characters
+        elif char.islower():
+            result += chr(((a_inverse * ((ord(char) - 97) - b)) % 26) + 97)
+        else:
+            result += char  # Non-alphabet characters remain the same
+
+    return result
+
+# Helper function to compute GCD
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+# Helper function to compute modular inverse
+def mod_inverse(a, mod):
+    for x in range(1, mod):
+        if (a * x) % mod == 1:
+            return x
+    return None
+
+# Example usage
+text = input("Enter the text: ")
+a = int(input("Enter the multiplicative key 'a' (must be coprime with 26): "))
+b = int(input("Enter the additive key 'b': "))
+
+# Encrypt the text
+encrypted_text = affine_cipher_encrypt(text, a, b)
+print("Encrypted text:", encrypted_text)
+
+# Decrypt the text
+decrypted_text = affine_cipher_decrypt(encrypted_text, a, b)
+print("Decrypted text:", decrypted_text)

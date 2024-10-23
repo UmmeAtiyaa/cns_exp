@@ -1,0 +1,40 @@
+def rail_fence_encrypt(plaintext, key):
+    # Create an empty 2D array (key rows)
+    rail = [['\n' for _ in range(len(plaintext))] for _ in range(key)]
+    
+    # To find the direction of movement (down or up)
+    direction_down = False
+    row, col = 0, 0
+    
+    # Traverse through the plaintext and place the characters in the zigzag pattern
+    for char in plaintext:
+        if row == 0 or row == key - 1:
+            direction_down = not direction_down
+        
+        # Place the character in the current position
+        rail[row][col] = char
+        col += 1
+        
+        # Move the row index either down or up
+        if direction_down:
+            row += 1
+        else:
+            row -= 1
+    
+    # Collect the characters row by row to form the ciphertext
+    ciphertext = []
+    for i in range(key):
+        for j in range(len(plaintext)):
+            if rail[i][j] != '\n':
+                ciphertext.append(rail[i][j])
+    
+    return "".join(ciphertext)
+
+
+# Example usage:
+plaintext = input("Enter the plaintext: ")
+key = int(input("Enter the number of rails: "))
+
+# Encrypt the plaintext using Rail Fence Cipher
+encrypted_text = rail_fence_encrypt(plaintext, key)
+print("Encrypted text:", encrypted_text)
